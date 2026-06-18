@@ -1,4 +1,4 @@
- {
+{
   "expo": {
     "name": "elituvchi",
     "slug": "elituvchi",
@@ -38,7 +38,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,

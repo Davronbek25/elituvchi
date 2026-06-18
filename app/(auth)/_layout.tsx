@@ -1,9 +1,6 @@
-import CustomButton from '@/components/CustomButton'
-import CustomInput from '@/components/CustomInput'
 import { images } from '@/constants'
 import { Slot } from 'expo-router'
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, Dimensions, ImageBackground, Image } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { View, KeyboardAvoidingView, Platform, ScrollView, Dimensions, ImageBackground, Image } from 'react-native'
 
 export default function _Layout() {
   return (
@@ -13,17 +10,8 @@ export default function _Layout() {
           <ImageBackground source={images.loginGraphic} className='size-full rounded-b-lg' resizeMode='stretch' />
           <Image source={images.logo} className='self-center size-48 absolute -bottom-16 z-10' />
         </View>
-
-        <CustomInput 
-          placeholder='Enter your email'
-          value={''}
-          onChangeText={() => {}}
-          label='Email'
-          keyboardType='email-address'
-        />
-        <CustomButton />
+        <Slot />
       </ScrollView>
-      <Slot />
     </KeyboardAvoidingView>
   )
 }
