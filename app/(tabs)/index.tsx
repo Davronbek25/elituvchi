@@ -1,10 +1,12 @@
 import '../globals.css'
 import {SafeAreaView} from "react-native-safe-area-context";
-import {FlatList, Pressable, View, Image, Text, TouchableOpacity} from "react-native";
-import {images, offers} from "@/constants";
+import {FlatList, Pressable, View, Image, Text, TouchableOpacity, Button} from "react-native";
 import {Fragment} from "react";
 import cn from "clsx";
+import * as Sentry from "@sentry/react-native"
+
 import CartButton from "@/components/CartButton";
+import {images, offers} from "@/constants";
 
 export default function Index() {
   return (
@@ -59,6 +61,6 @@ export default function Index() {
                   </View>
               )}
             />
-        </SafeAreaView>
+    </SafeAreaView>
   );
 }
