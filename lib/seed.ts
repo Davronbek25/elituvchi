@@ -1,5 +1,5 @@
 import { ID } from "react-native-appwrite";
-import { appwriteConfig, databases, storage } from "./appwrite";
+import { appwriteConfig, databases } from "./appwrite";
 import dummyData from "./data";
 
 interface Category {
@@ -47,35 +47,6 @@ async function clearAll(collectionId: string): Promise<void> {
     );
 }
 
-async function clearStorage(): Promise<void> {
-    const list = await storage.listFiles(appwriteConfig.bucketId);
-
-    await Promise.all(
-        list.files.map((file) =>
-            storage.deleteFile(appwriteConfig.bucketId, file.$id)
-        )
-    );
-}
-
-async function uploadImageToStorage(imageUrl: string) {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
-
-    const fileObj = {
-        name: imageUrl.split("/").pop() || `file-${Date.now()}.jpg`,
-        type: blob.type,
-        size: blob.size,
-        uri: imageUrl,
-    };
-
-    const file = await storage.createFile(
-        appwriteConfig.bucketId,
-        ID.unique(),
-        fileObj
-    );
-
-    return storage.getFileViewURL(appwriteConfig.bucketId, file.$id);
-}
 
 async function seed(): Promise<void> {
     // 1. Clear all
@@ -83,7 +54,6 @@ async function seed(): Promise<void> {
     await clearAll(appwriteConfig.customizationCollectionId);
     await clearAll(appwriteConfig.menuCollectionId);
     await clearAll(appwriteConfig.menuCustomizationCollectionId);
-    await clearStorage();
 
     // 2. Create Categories
     const categoryMap: Record<string, string> = {};
@@ -116,8 +86,6 @@ async function seed(): Promise<void> {
     // 4. Create Menu Items
     const menuMap: Record<string, string> = {};
     for (const item of data.menu) {
-        const uploadedImage = await uploadImageToStorage(item.image_url);
-
         const doc = await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.menuCollectionId,
@@ -125,7 +93,7 @@ async function seed(): Promise<void> {
             {
                 name: item.name,
                 description: item.description,
-                image_url: uploadedImage,
+                image_url: item.image_url,
                 price: item.price,
                 rating: item.rating,
                 calories: item.calories,
