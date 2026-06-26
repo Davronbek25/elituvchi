@@ -1,22 +1,44 @@
 import { images } from '@/constants'
 import { Redirect, Slot } from 'expo-router'
-import { View, KeyboardAvoidingView, Platform, ScrollView, Dimensions, ImageBackground, Image } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { Image } from 'expo-image'
+import { LinearGradient } from 'expo-linear-gradient'
 import useAuthStore from '@/store/auth.store'
-import { useEffect } from 'react'
 
 export default function _Layout() {
   const { isAuthenticated } = useAuthStore()
 
-  if(isAuthenticated) return <Redirect href='/' />
+  if (isAuthenticated) return <Redirect href='/' />
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <ScrollView className='bg-white h-full' keyboardShouldPersistTaps='handled'>
-        <View className='w-full relative' style={{ height: Dimensions.get('screen').height / 2.25 }}>
-          <ImageBackground source={images.loginGraphic} className='size-full rounded-b-lg' resizeMode='stretch' />
-          <Image source={images.logo} className='self-center size-48 absolute -bottom-16 z-10' />
+    <KeyboardAvoidingView
+      className="flex-1"
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView className="flex-1 bg-white" keyboardShouldPersistTaps="handled">
+        {/* Hero image with gradient overlay */}
+        <View className="h-72 relative">
+          <Image
+            source={images.loginGraphic}
+            className="absolute inset-0 w-full h-full"
+            contentFit="cover"
+          />
+          <LinearGradient
+            colors={['transparent', 'rgba(0,0,0,0.65)']}
+            className="absolute inset-0 w-full h-full"
+          />
+          {/* Headline */}
+          <View className="absolute bottom-8 left-6 right-6">
+            <Text className="text-3xl font-inter-extrabold text-white leading-tight">
+              Get Started{'\n'}now
+            </Text>
+          </View>
         </View>
-        <Slot />
+
+        {/* White card overlapping the image */}
+        <View className="bg-white rounded-t-3xl -mt-6 px-6 pt-8 pb-4 min-h-screen">
+          <Slot />
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   )

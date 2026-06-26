@@ -9,15 +9,20 @@ const CustomInput = ({
     onChangeText,
     label,
     secureTextEntry = false,
-    keyboardType = 'default'
+    keyboardType = 'default',
+    variant = 'outlined',
 }: CustomInputProps) => {
     const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View className='w-full'>
-      <Text className='label'>{label}</Text>
+      {variant === 'outlined' ? (
+        <Text className='label'>{label}</Text>
+      ) : (
+        <Text className='text-xs font-inter text-muted-foreground mb-1'>{label}</Text>
+      )}
 
-      <TextInput 
+      <TextInput
         autoCapitalize='none'
         autoCorrect={false}
         value={value}
@@ -27,8 +32,12 @@ const CustomInput = ({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         placeholder={placeholder}
-        placeholderTextColor='#888'
-        className={cn('input', isFocused ? 'border-primary' : 'border-gray-300')}
+        placeholderTextColor='#aaa'
+        className={cn(
+          variant === 'outlined'
+            ? cn('input', isFocused ? 'border-primary' : 'border-gray-300')
+            : cn('input-underline', isFocused ? 'border-primary' : 'border-gray-300')
+        )}
       />
     </View>
   )

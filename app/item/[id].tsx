@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 
 import useAppwrite from "@/lib/useAppwrite";
-import { appwriteConfig, getMenuItem, getMenuCustomizations } from "@/lib/appwrite";
+import { getMenuItem, getMenuCustomizations } from "@/lib/appwrite";
 import { useCartStore } from "@/store/cart.store";
 import { CartCustomization, MenuItem } from "@/type";
 import { images } from "@/constants";
@@ -129,7 +129,7 @@ export default function ItemDetail() {
   const toppings = customizationDocs.filter((c) => c.type === "topping");
   const sides = customizationDocs.filter((c) => c.type === "side");
 
-  const imageUrl = `${item.image_url}?project=${appwriteConfig.projectId}`;
+  const imageUrl = item.image_url;
   const selectedList = Object.values(selected);
   const extrasTotal = selectedList.reduce((s, c) => s + (Number(c.price) || 0), 0);
   const totalPrice = item.price + extrasTotal;
@@ -175,7 +175,7 @@ export default function ItemDetail() {
 
         {/* Food image */}
         <View className="h-60 mx-4 rounded-2xl overflow-hidden bg-orange/10">
-          <Image source={{ uri: imageUrl }} style={{ flex: 1 }} contentFit="cover" />
+          <Image source={{ uri: imageUrl }} style={{ flex: 1 }} contentFit="contain" />
         </View>
 
         {/* Content */}

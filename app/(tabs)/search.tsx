@@ -1,12 +1,10 @@
-import { Text, Button, FlatList, View } from 'react-native'
+import { Text, FlatList, View } from 'react-native'
 import React, { useEffect } from 'react'
-import seed from '@/lib/seed'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { getMenu, getCategories } from '@/lib/appwrite'
 import useAppwrite from '@/lib/useAppwrite'
 import { useLocalSearchParams } from 'expo-router'
 import CartButton from '@/components/CartButton'
-import cn from 'clsx'
 import { MenuItem } from '@/type'
 import MenuCard from '@/components/MenuCard'
 import SearchBar from '@/components/SearchBar'
@@ -15,54 +13,50 @@ import Filter from '@/components/Filter'
 const Search = () => {
   const { category, query } = useLocalSearchParams<{ category: string; query: string }>()
 
-  const { data, refetch, loading} = useAppwrite({
+  const { data, refetch, loading } = useAppwrite({
     fn: getMenu,
-    params: { category: '', query: '', limit: 6 },
+    params: { category: '', query: '', limit: 20 },
   })
 
   const { data: categories } = useAppwrite({ fn: getCategories })
 
   useEffect(() => {
-    refetch({ category: category, query: query, limit: 6 })
+    refetch({ category: category, query: query, limit: 20 })
   }, [category, query])
 
   return (
-    <SafeAreaView className="bg-white h-full">
+    <SafeAreaView className="bg-background flex-1" edges={['top']}>
       <FlatList
         data={data}
-        renderItem={({ item, index }) => {
-          const isFirstRightColItem = index % 2 === 0
-
-          return (
-            <View className={cn('flex-1 max-w-[48%]', !isFirstRightColItem ? 'mt-10' : 'mt-0')}>
-              <MenuCard item={item as MenuItem} />
-            </View>
-          )
-        }}
-        keyExtractor={(item) => item.$id}
-        numColumns={2}
-        columnWrapperClassName="gap-7"
-        contentContainerClassName="gap-7 px-5 pt-2.5 pb-32"
-        ListHeaderComponent={() => (
-          <View className="my-5 gap-5">
-            <View className="flex-between flex-row w-full">
-              <View className="flex-start">
-                <Text className="small-bold uppercase text-primary">Search</Text>
-                <View className="flex-start flex-row gap-x-1 mt-0.5">
-                  <Text className="paragraph text-dark-100">Find your favorite food</Text>
-                </View>
-              </View>
-
-              <CartButton />
-            </View>
-
-            <SearchBar />
-
-            <Filter categories={categories!} />
-
+        renderItem={({ item }) => (
+          <View className="flex-1 max-w-[48%]">
+            <MenuCard item={item as MenuItem} />
           </View>
         )}
-        ListEmptyComponent={() => !loading && <Text>No results</Text>}
+        keyExtractor={(item) => item.$id}
+        numColumns={2}
+        columnWrapperClassName="gap-5"
+        contentContainerClassName="gap-5 px-5 pt-2 pb-32"
+        ListHeaderComponent={() => (
+          <View className="mt-4 mb-2 gap-4">
+            <View className="flex-row items-center justify-between">
+              <View>
+                <Text className="text-xs font-inter-bold uppercase text-primary tracking-widest">Search</Text>
+                <Text className="text-base font-inter text-dark-100 mt-0.5">Find your favorite food</Text>
+              </View>
+              <CartButton />
+            </View>
+            <SearchBar />
+          <Filter categories={categories!} />
+          </View>
+        )}
+        ListEmptyComponent={() =>
+          !loading ? (
+            <View className="items-center py-16">
+              <Text className="text-base font-inter text-muted-foreground">No results found</Text>
+            </View>
+          ) : null
+        }
       />
     </SafeAreaView>
   )

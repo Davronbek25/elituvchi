@@ -1,26 +1,23 @@
-import { View, Text, Alert } from 'react-native'
-import React, {useState} from 'react'
+import { View, Text, Alert, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import CustomInput from '@/components/CustomInput'
 import CustomButton from '@/components/CustomButton'
 import { Link, router } from 'expo-router'
 import { createUser } from '@/lib/appwrite'
 
-const SignUp = () => { 
+const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [form, setForm] = useState({name: '', email: '', password: ''})
+  const [form, setForm] = useState({ name: '', email: '', password: '' })
 
-  const submit = async() => {
+  const submit = async () => {
     const { name, email, password } = form
-
-    if(!name || !email || !password) return Alert.alert('Error', 'Please enter valid email & password')
+    if (!name || !email || !password) return Alert.alert('Error', 'Please enter valid email & password')
 
     setIsSubmitting(true)
-
     try {
-      await createUser( { name, email, password })
-
+      await createUser({ name, email, password })
       router.replace('/')
-    } catch(error: any) {
+    } catch (error: any) {
       Alert.alert('Error', error.message)
     } finally {
       setIsSubmitting(false)
@@ -28,41 +25,55 @@ const SignUp = () => {
   }
 
   return (
-    <View className="gap-10 bg-white rounded-lg p-5 mt-5">
-      <CustomInput
-          placeholder='Enter your full name'
-          value={form.name}
-          onChangeText={(text) => setForm((prev) => ({...prev, name: text}))}
-          label='Full name'
-        />
-      <CustomInput
-          placeholder='Enter your email'
-          value={form.email}
-          onChangeText={(text) => setForm((prev) => ({...prev, email: text}))}
-          label='Email'
-          keyboardType='email-address'
-        />
-      <CustomInput
-          placeholder='Enter your password'
-          value={form.password}
-          onChangeText={(text) => setForm((prev) => ({...prev, password: text}))}
-          label='Password'
-          secureTextEntry={true}
-        />
-        <CustomButton 
-          title='Sign Up'
-          isLoading={isSubmitting}
-          onPress={submit}
-        />
-
-        <View className='flex justify-center mt-5 flex-row gap-2'>
-          <Text className='base-regular text-gray-100'>
-            Already have an account?
-          </Text>
-          <Link href="/sign-in" className='base-bold text-primary'>
-            Sign In
-          </Link>
+    <View className="gap-6">
+      {/* Tab switcher */}
+      <View className="flex-row bg-muted rounded-full p-1">
+        <TouchableOpacity
+          className="flex-1 py-2.5 items-center"
+          onPress={() => router.replace('/sign-in')}
+        >
+          <Text className="text-sm font-inter text-muted-foreground">Log In</Text>
+        </TouchableOpacity>
+        <View className="flex-1 bg-white rounded-full py-2.5 items-center shadow-sm shadow-black/10">
+          <Text className="text-sm font-inter-semibold text-dark-100">Sign Up</Text>
         </View>
+      </View>
+
+      {/* Inputs */}
+      <CustomInput
+        placeholder="Enter your full name"
+        value={form.name}
+        onChangeText={(text) => setForm((prev) => ({ ...prev, name: text }))}
+        label="Full Name"
+        variant="underline"
+      />
+      <CustomInput
+        placeholder="Enter your email"
+        value={form.email}
+        onChangeText={(text) => setForm((prev) => ({ ...prev, email: text }))}
+        label="Email"
+        keyboardType="email-address"
+        variant="underline"
+      />
+      <CustomInput
+        placeholder="Enter your password"
+        value={form.password}
+        onChangeText={(text) => setForm((prev) => ({ ...prev, password: text }))}
+        label="Password"
+        secureTextEntry={true}
+        variant="underline"
+      />
+
+      <CustomButton
+        title="Sign Up"
+        isLoading={isSubmitting}
+        onPress={submit}
+      />
+
+      <View className="flex-row justify-center gap-1 mt-2">
+        <Text className="text-sm font-inter text-muted-foreground">Already have an account?</Text>
+        <Link href="/sign-in" className="text-sm font-inter-semibold text-primary">Log In</Link>
+      </View>
     </View>
   )
 }

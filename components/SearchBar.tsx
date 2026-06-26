@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, TextInput, TouchableOpacity, Image } from 'react-native'
 import React, { useState } from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
 import { images } from '@/constants'
@@ -21,7 +21,7 @@ const SearchBar = () => {
   return (
     <View className="searchbar">
       <TextInput
-        className="flex-1 p-5"
+        className="flex-1 p-5 font-inter text-dark-100"
         placeholder="Search for pizzas, burgers ..."
         value={query}
         onChangeText={handleSearch}
