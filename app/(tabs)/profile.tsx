@@ -5,7 +5,7 @@ import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import useAuthStore from '@/store/auth.store'
 import { account } from '@/lib/appwrite'
-import { SearchIcon, PencilIcon, LogoutIcon, UserIcon, MailIcon } from '@/components/icons'
+import { SearchIcon, PencilIcon, LogoutIcon, UserIcon, MailIcon, PhoneIcon, MapPinIcon, BriefcaseIcon } from '@/components/icons'
 
 const ProfileField = ({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) => (
   <View className="flex-row items-center py-4">
@@ -60,10 +60,18 @@ const Profile = () => {
         <View className="items-center py-6">
           <View className="relative">
             <Image
-              source={{ uri: user?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.name || 'U') + '&background=FE8C00&color=fff&size=128' }}
-              className="size-28 rounded-full border-4 border-white"
+              source={{ uri: 'https://ui-avatars.com/api/?name=' + encodeURIComponent((user?.name || 'U').replace(/ /g, '&')) + '&background=FE8C00&color=fff&size=128' }}
               contentFit="cover"
-              style={Platform.OS !== 'android' ? { shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 8, shadowOffset: { width: 0, height: 4 } } : {}}
+              style={{
+                width: 112,
+                height: 112,
+                borderRadius: 56,
+                borderWidth: 4,
+                borderColor: '#fff',
+                ...(Platform.OS !== 'android'
+                  ? { shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 8, shadowOffset: { width: 0, height: 4 } }
+                  : {}),
+              }}
             />
             <View className="absolute bottom-0 right-0 size-8 bg-primary rounded-full items-center justify-center border-2 border-white">
               <PencilIcon color="#fff" size={12} />
@@ -85,9 +93,27 @@ const Profile = () => {
           />
           <View className="h-px bg-border" />
           <ProfileField
-            label="Email Address"
+            label="Email"
             value={user?.email || '—'}
             icon={<MailIcon color="#FE8C00" size={18} />}
+          />
+          <View className="h-px bg-border" />
+          <ProfileField
+            label="Phone number"
+            value="+39 347 182 9359"
+            icon={<PhoneIcon color="#FE8C00" size={18} />}
+          />
+          <View className="h-px bg-border" />
+          <ProfileField
+            label="Address 1 (Home)"
+            value="18 Yulduz Street, Fergana, UZ 11257"
+            icon={<MapPinIcon color="#FE8C00" size={18} />}
+          />
+          <View className="h-px bg-border" />
+          <ProfileField
+            label="Address 2 (Work)"
+            value="21 Qatartor Street, Tasheknt, UZ 12345"
+            icon={<BriefcaseIcon color="#FE8C00" size={18} />}
           />
         </View>
 

@@ -222,6 +222,50 @@ export const UserIcon = ({ color = "#FE8C00", size = 20 }: IconProps) => (
   </Svg>
 );
 
+export const PhoneIcon = ({ color = "#FE8C00", size = 18 }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M22 16.92V19.92C22 20.52 21.52 21 20.92 21C10.48 21 3 13.52 3 3.08C3 2.48 3.48 2 4.08 2H7.08C7.63 2 8.09 2.41 8.16 2.95C8.3 4.03 8.57 5.08 8.96 6.07C9.13 6.5 9.01 6.99 8.67 7.3L7.2 8.64C8.57 11.43 10.57 13.43 13.36 14.8L14.7 13.33C15.01 12.99 15.5 12.87 15.93 13.04C16.92 13.43 17.97 13.7 19.05 13.84C19.59 13.91 20 14.37 20 14.92"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const MapPinIcon = ({ color = "#FE8C00", size = 18 }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 5.03 7.03 1 12 1C16.97 1 21 5.03 21 10Z"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Circle cx="12" cy="10" r="3" stroke={color} strokeWidth={2} />
+  </Svg>
+);
+
+export const BriefcaseIcon = ({ color = "#FE8C00", size = 18 }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M20 7H4C2.9 7 2 7.9 2 9V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V9C22 7.9 21.1 7 20 7Z"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M16 21V5C16 3.9 15.1 3 14 3H10C8.9 3 8 3.9 8 5V21"
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
 export const PlusCircleIcon = ({ color = "#FE8C00", size = 18 }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="9" stroke={color} strokeWidth={2} />
