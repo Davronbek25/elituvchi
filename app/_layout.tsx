@@ -1,5 +1,13 @@
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+  Inter_900Black,
+} from "@expo-google-fonts/inter";
 import { useEffect } from "react";
 
 import './globals.css';
@@ -31,9 +39,16 @@ export default Sentry.wrap(function RootLayout() {
   const [fontsLoaded, error] = useFonts({
     "QuickSand-Bold": require("../assets/fonts/Quicksand-Bold.ttf"),
     "QuickSand-Medium": require("../assets/fonts/Quicksand-Medium.ttf"),
-    "QuickSand-Regular": require("../assets/fonts/Quicksand-Regular.ttf"), 
-    "QuickSand-SemiBold": require("../assets/fonts/Quicksand-SemiBold.ttf"), 
-    "QuickSand-Light": require("../assets/fonts/Quicksand-Light.ttf"), 
+    "QuickSand-Regular": require("../assets/fonts/Quicksand-Regular.ttf"),
+    "QuickSand-SemiBold": require("../assets/fonts/Quicksand-SemiBold.ttf"),
+    "QuickSand-Light": require("../assets/fonts/Quicksand-Light.ttf"),
+    // Inter (builder.io design) — keys match fontFamily entries in tailwind.config.js
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black,
   })
 
   useEffect(() => {

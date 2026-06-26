@@ -1,70 +1,101 @@
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { useCartStore } from '@/store/cart.store';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import CustomHeader from '@/components/CustomHeader';
-import cn from "clsx";
-import { PaymentInfoStripeProps } from '@/type';
-import CustomButton from '@/components/CustomButton';
+import { router } from 'expo-router';
 import CartItem from '@/components/CartItem';
+import { BackIcon } from '@/components/icons';
+import { CartItemType } from '@/type';
 
-const PaymentInfoStripe = ({ label, value, labelStyle, valueStyle }: PaymentInfoStripeProps) => (
-  <View className="flex-between flex-row my-1">
-    <Text className={cn("paragraph-medium text-gray-200", labelStyle)}>
+const SummaryRow = ({
+  label,
+  value,
+  valueColor = 'text-gray-800',
+  bold = false,
+}: {
+  label: string;
+  value: string;
+  valueColor?: string;
+  bold?: boolean;
+}) => (
+  <View className="flex-row justify-between items-center">
+    <Text className={bold ? 'text-base font-inter-bold text-gray-800' : 'text-base font-inter text-gray-500'}>
       {label}
     </Text>
-    <Text className={cn("paragraph-bold text-dark-100", valueStyle)}>
-      {value}
-    </Text>
+    <Text className={`text-base font-inter-semibold ${valueColor}`}>{value}</Text>
   </View>
-)
+);
+
+const Header = () => (
+  <View className="flex-row items-center justify-between px-5 pt-2 pb-4 bg-white">
+    <TouchableOpacity onPress={() => router.back()} className="w-9 h-9 items-center justify-center">
+      <BackIcon color="#111" size={24} />
+    </TouchableOpacity>
+    <View className="items-center">
+      <Text className="text-xs font-inter-semibold text-orange uppercase tracking-widest">
+        Delivery Location
+      </Text>
+      <Text className="text-base font-inter-bold text-gray-800">Home</Text>
+    </View>
+    <TouchableOpacity className="px-3 py-2 border border-orange rounded-full">
+      <Text className="text-orange text-sm font-inter-semibold">Change Location</Text>
+    </TouchableOpacity>
+  </View>
+);
 
 const Cart = () => {
   const { items, getTotalItems, getTotalPrice } = useCartStore();
 
   const totalItems = getTotalItems();
-  const totalPrice = getTotalPrice();
+  const subtotal = getTotalPrice();
+  const discount = 0.5;
+  const total = Math.max(0, subtotal - discount);
+
+  const keyFor = (item: CartItemType) =>
+    `${item.id}-${(item.customizations ?? []).map((c) => c.id).sort().join('_')}`;
 
   return (
-    <SafeAreaView className="bg-white h-full">
+    <SafeAreaView className="flex-1 bg-background" edges={['top']}>
       <FlatList
         data={items}
-        renderItem={(item) => <CartItem item={item} />}
-        keyExtractor={(item) => item.id}
-        contentContainerClassName="pb-28 px-5 pt-5"
-        ListHeaderComponent={() => <CustomHeader title="Your Cart" />}
-        ListEmptyComponent={() => <Text>Cart Empty</Text>}
-        ListFooterComponent={() => totalItems > 0 && (
-          <View className='gap-5'>
-            <View className="mt-6 border border-gray-300 rounded-2xl">
-              <Text className="h3-bold text-dark-100 mb-5">
-                Payment Summary
-              </Text>
-
-              <PaymentInfoStripe
-                label={`Total Items (${totalItems})`}
-                value={`$${totalPrice.toFixed(2)}`}
-              />
-              <PaymentInfoStripe
-                label={`Delivery Fee`}
-                value={`$5.00`}
-              />
-              <PaymentInfoStripe
-                label={`Discount`}
-                value={`- $0.50`}
-                valueStyle="!text-success"
-              />
-              <View className="border-t border-gray-300 my-2" />
-              <PaymentInfoStripe
-                label={`Total`}
-                value={`$${(totalPrice + 5 - 0.5).toFixed(2)}`}
-                labelStyle="base-bold !text-dark-100"
-                valueStyle="base-bold !text-dark-100 !text-right"
-              />
-            </View>
-
-            <CustomButton title="Order Now" />
+        renderItem={({ item }) => <CartItem item={item} />}
+        keyExtractor={keyFor}
+        contentContainerClassName="pb-32 pt-5"
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={<Header />}
+        ListEmptyComponent={
+          <View className="items-center justify-center mt-40">
+            <Text className="text-base font-inter-semibold text-gray-400">Your cart is empty</Text>
           </View>
-        )}
+        }
+        ListFooterComponent={
+          totalItems > 0 ? (
+            <View className="px-4 mt-1">
+              {/* Payment Summary */}
+              <View
+                className="bg-white rounded-2xl p-5 mt-3"
+                style={{ shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 6, shadowOffset: { width: 0, height: 2 }, elevation: 2 }}
+              >
+                <Text className="text-lg font-inter-bold text-gray-800 mb-4">Payment Summary</Text>
+                <View className="gap-3">
+                  <SummaryRow label={`Total Items (${totalItems})`} value={`$${subtotal.toFixed(2)}`} />
+                  <SummaryRow label="Delivery Fee" value="Free" valueColor="text-success" />
+                  <SummaryRow label="Discount" value={`-$${discount.toFixed(2)}`} valueColor="text-error" />
+                  <View className="border-t border-gray-100 pt-3">
+                    <SummaryRow label="Total" value={`$${total.toFixed(2)}`} valueColor="text-orange" bold />
+                  </View>
+                </View>
+              </View>
+
+              {/* Checkout */}
+              <TouchableOpacity
+                activeOpacity={0.9}
+                className="w-full bg-orange py-5 rounded-2xl items-center mt-4"
+              >
+                <Text className="text-white font-inter-bold text-lg">Proceed to Checkout</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null
+        }
       />
     </SafeAreaView>
   )

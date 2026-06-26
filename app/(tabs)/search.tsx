@@ -26,7 +26,6 @@ const Search = () => {
     refetch({ category: category, query: query, limit: 6 })
   }, [category, query])
 
-  console.log('data', data)
   return (
     <SafeAreaView className="bg-white h-full">
       <FlatList
@@ -43,7 +42,7 @@ const Search = () => {
         keyExtractor={(item) => item.$id}
         numColumns={2}
         columnWrapperClassName="gap-7"
-        contentContainerClassName="gap-7 px-5 pb-32"
+        contentContainerClassName="gap-7 px-5 pt-2.5 pb-32"
         ListHeaderComponent={() => (
           <View className="my-5 gap-5">
             <View className="flex-between flex-row w-full">

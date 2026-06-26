@@ -84,10 +84,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
     getTotalPrice: () =>
         get().items.reduce((total, item) => {
-            const base = item.price;
+            const base = Number(item.price) || 0;
             const customPrice =
                 item.customizations?.reduce(
-                    (s: number, c: CartCustomization) => s + c.price,
+                    (s: number, c: CartCustomization) => s + (Number(c.price) || 0),
                     0
                 ) ?? 0;
             return total + item.quantity * (base + customPrice);

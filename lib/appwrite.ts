@@ -105,3 +105,60 @@ export const getCategories = async () => {
     throw new Error(e as string)
   }
 }
+
+export const getMenuItem = async ({ id }: { id: string }) => {
+  try {
+    const item = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.menuCollectionId,
+      id
+    )
+
+    return item
+  } catch (e) {
+    throw new Error(e as string)
+  }
+}
+
+// Returns the customization documents (toppings, sides, ...) allowed for a menu item.
+// menu_customizations is a junction linking a menu item to its customizations. The
+// `customizations` attribute may come back as a bare id string, an expanded
+// document, or an array of either depending on how the relationship is configured,
+// so we collect the ids and fetch the real customization documents (which carry the
+// name/price/type fields the UI and cart depend on).
+export const getMenuCustomizations = async ({ id }: { id: string }) => {
+  try {
+    const rows = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.menuCustomizationCollectionId,
+      [Query.equal('menu', id)]
+    )
+
+    const extractId = (value: any): string | null => {
+      if (!value) return null
+      if (typeof value === 'string') return value
+      if (typeof value === 'object' && value.$id) return value.$id
+      return null
+    }
+
+    const customizationIds = rows.documents
+      .flatMap((row: any) =>
+        Array.isArray(row.customizations)
+          ? row.customizations.map(extractId)
+          : [extractId(row.customizations)]
+      )
+      .filter((cid): cid is string => Boolean(cid))
+
+    if (customizationIds.length === 0) return []
+
+    const customizations = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.customizationCollectionId,
+      [Query.equal('$id', customizationIds), Query.limit(100)]
+    )
+
+    return customizations.documents
+  } catch (e) {
+    throw new Error(e as string)
+  }
+}
