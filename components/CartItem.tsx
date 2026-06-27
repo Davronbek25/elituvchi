@@ -7,7 +7,7 @@ import { CheckIcon, TrashIcon } from "@/components/icons";
 const QtyButton = ({ label, onPress }: { label: string; onPress: () => void }) => (
     <TouchableOpacity
         onPress={onPress}
-        className="w-8 h-8 bg-gray-100 rounded-full items-center justify-center"
+        className="w-8 h-8 bg-gray-50 rounded-full items-center justify-center"
     >
         <Text className="text-gray-600 font-inter-bold text-base">{label}</Text>
     </TouchableOpacity>
@@ -50,7 +50,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
             </View>
 
             <TouchableOpacity onPress={() => removeItem(item.id, customizations)}>
-                <TrashIcon color="#FCA5A5" size={20} />
+                <TrashIcon color="#ff0000" size={20} />
             </TouchableOpacity>
         </View>
     );

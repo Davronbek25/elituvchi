@@ -85,7 +85,7 @@ export const StarIcon = ({ color = "#F97316", size = 14 }: IconProps) => (
   </Svg>
 );
 
-export const TrashIcon = ({ color = "#FCA5A5", size = 20 }: IconProps) => (
+export const TrashIcon = ({ color = "#ff0000", size = 20 }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
       d="M3 6H21M8 6V4H16V6M19 6L18 20C18 21.1 17.1 22 16 22H8C6.9 22 6 21.1 6 20L5 6H19Z"

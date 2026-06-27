@@ -36,7 +36,7 @@ const Search = () => {
         keyExtractor={(item) => item.$id}
         numColumns={2}
         columnWrapperClassName="gap-5"
-        contentContainerClassName="gap-5 px-5 pt-2 pb-32"
+        contentContainerClassName="gap-5 px-5 pb-32"
         ListHeaderComponent={() => (
           <View className="mt-4 mb-2 gap-4">
             <View className="flex-row items-center justify-between">

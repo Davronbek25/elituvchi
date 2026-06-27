@@ -59,7 +59,7 @@ const Cart = () => {
         data={items}
         renderItem={({ item }) => <CartItem item={item} />}
         keyExtractor={keyFor}
-        contentContainerClassName="pb-32 pt-5"
+        contentContainerClassName="pb-32"
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={<Header />}
         ListEmptyComponent={

@@ -1,6 +1,7 @@
 import { ID } from "react-native-appwrite";
 import { appwriteConfig, databases } from "./appwrite";
 import dummyData from "./data";
+import { CUSTOMIZATION_IMAGE_URLS } from "./customizationImages";
 
 interface Category {
     name: string;
@@ -78,6 +79,7 @@ async function seed(): Promise<void> {
                 name: cus.name,
                 price: cus.price,
                 type: cus.type,
+                image_url: CUSTOMIZATION_IMAGE_URLS[cus.name] ?? "",
             }
         );
         customizationMap[cus.name] = doc.$id;

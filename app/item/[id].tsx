@@ -22,30 +22,12 @@ type CustomizationDoc = {
   name: string;
   price: number;
   type: string;
+  image_url?: string;
 };
 
-// Customizations have no image field in Appwrite, so map name -> local food image.
-const CUSTOMIZATION_IMAGES: { match: string; img: number }[] = [
-  { match: "cheese", img: images.cheese },
-  { match: "onion ring", img: images.onionRings },
-  { match: "onion", img: images.onions },
-  { match: "mushroom", img: images.mushrooms },
-  { match: "tomato", img: images.tomatoes },
-  { match: "bacon", img: images.bacon },
-  { match: "avocado", img: images.avocado },
-  { match: "cucumber", img: images.cucumber },
-  { match: "mozzarella", img: images.mozarellaSticks },
-  { match: "wedge", img: images.fries },
-  { match: "fries", img: images.fries },
-  { match: "coleslaw", img: images.coleslaw },
-  { match: "salad", img: images.salad },
-];
+// Customizations carry their own image_url (seeded from Vecteezy). Fall back to a
+// local image only if the url is missing (e.g. before the seed has been run).
 const FALLBACK_IMG = images.salad;
-
-const customizationImage = (name: string): number => {
-  const n = name.toLowerCase();
-  return CUSTOMIZATION_IMAGES.find((c) => n.includes(c.match))?.img ?? FALLBACK_IMG;
-};
 
 const StarRating = ({ rating, max = 5 }: { rating: number; max?: number }) => (
   <View className="flex-row gap-0.5">
@@ -79,7 +61,11 @@ const CustomizationChip = ({
       className="w-16 h-16 rounded-full overflow-hidden bg-gray-100"
       style={{ shadowColor: "#000", shadowOpacity: 0.08, shadowRadius: 4, shadowOffset: { width: 0, height: 2 }, elevation: 2 }}
     >
-      <Image source={customizationImage(item.name)} style={{ flex: 1 }} contentFit="cover" />
+      <Image
+        source={item.image_url ? { uri: item.image_url } : FALLBACK_IMG}
+        style={{ flex: 1 }}
+        contentFit="cover"
+      />
     </View>
     <View className="flex-row items-center gap-1 mt-2">
       <Text className="text-xs font-inter-semibold text-gray-700" numberOfLines={1} style={{ maxWidth: 64 }}>
