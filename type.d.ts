@@ -49,19 +49,6 @@ export interface CartStore {
     getTotalPrice: () => number;
 }
 
-interface TabBarIconProps {
-    focused: boolean;
-    icon: ImageSourcePropType;
-    title: string;
-}
-
-interface PaymentInfoStripeProps {
-    label: string;
-    value: string;
-    labelStyle?: string;
-    valueStyle?: string;
-}
-
 interface CustomButtonProps {
     onPress?: () => void;
     title?: string;
@@ -69,10 +56,6 @@ interface CustomButtonProps {
     leftIcon?: React.ReactNode;
     textStyle?: string;
     isLoading?: boolean;
-}
-
-interface CustomHeaderProps {
-    title?: string;
 }
 
 interface CustomInputProps {
@@ -83,12 +66,6 @@ interface CustomInputProps {
     secureTextEntry?: boolean;
     keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
     variant?: 'outlined' | 'underline';
-}
-
-interface ProfileFieldProps {
-    label: string;
-    value: string;
-    icon: ImageSourcePropType;
 }
 
 interface CreateUserParams {

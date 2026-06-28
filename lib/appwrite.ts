@@ -1,5 +1,5 @@
-import { CreateUserParams, GetMenuParams, SignInParams } from "@/type";
-import { Account, Avatars, Client, Databases, ID, Query, Storage } from "react-native-appwrite";
+import { Category, CreateUserParams, GetMenuParams, MenuItem, SignInParams, User } from "@/type";
+import { Account, Avatars, Client, Databases, ID, Query } from "react-native-appwrite";
 
 export const appwriteConfig = {
   endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
@@ -23,7 +23,6 @@ client
 
 export const account = new Account(client)
 export const databases = new Databases(client)
-export const storage = new Storage(client)
 const avatars = new Avatars(client)
 
 export const createUser = async ({ email, password, name} : CreateUserParams) => {
@@ -54,7 +53,7 @@ export const signIn = async ({ email, password }: SignInParams) => {
   }
 }
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (): Promise<User> => {
   try {
     const currentAccount = await account.get()
     if(!currentAccount) throw Error
@@ -67,16 +66,16 @@ export const getCurrentUser = async () => {
 
     if(!currentUser) throw Error
 
-    return currentUser.documents[0]
+    return currentUser.documents[0] as unknown as User
   } catch (e) {
     console.log(e)
     throw new Error(e as string)
   }
 }
 
-export const getMenu = async ({ category, query }: GetMenuParams) => {
+export const getMenu = async ({ category, query }: GetMenuParams): Promise<MenuItem[]> => {
   try {
-    const queries : String[] = []
+    const queries : string[] = []
 
     if(category) queries.push(Query.equal('categories', category))
     if(query) queries.push(Query.search('name', query));
@@ -87,20 +86,20 @@ export const getMenu = async ({ category, query }: GetMenuParams) => {
       queries
     )
 
-    return menus.documents
+    return menus.documents as unknown as MenuItem[]
   } catch (e) {
     throw new Error(e as string)
   }
 }
 
-export const getCategories = async () => {
+export const getCategories = async (): Promise<Category[]> => {
   try {
     const categories = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.categoriesCollectionId
     )
 
-    return categories.documents
+    return categories.documents as unknown as Category[]
   } catch (e) {
     throw new Error(e as string)
   }

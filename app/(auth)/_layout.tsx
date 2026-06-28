@@ -5,7 +5,7 @@ import { Image } from 'expo-image'
 import { LinearGradient } from 'expo-linear-gradient'
 import useAuthStore from '@/store/auth.store'
 
-export default function _Layout() {
+export default function AuthLayout() {
   const { isAuthenticated } = useAuthStore()
 
   if (isAuthenticated) return <Redirect href='/' />
