@@ -55,10 +55,10 @@ const categories = [
 
 export default function Index() {
   return (
-    <SafeAreaView className="flex-1 bg-background pt-4" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-background pt-3" edges={["top"]}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="pb-6">
         {/* Header */}
-        <View className="flex-row items-center justify-between px-5 pb-4">
+        <View className="flex-row items-center justify-between pt-1 px-5 pb-4">
           <View>
             <Text className="text-xs font-inter-semibold text-gray-400 uppercase tracking-widest">
               Deliver To
