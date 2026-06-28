@@ -20,7 +20,7 @@ export default function _Layout() {
         <View className="h-72 relative">
           <Image
             source={images.loginGraphic}
-            className="absolute inset-0 w-full h-full"
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
             contentFit="cover"
           />
           <LinearGradient
