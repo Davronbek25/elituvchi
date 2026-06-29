@@ -6,7 +6,6 @@ module.exports = {
     extend: {
       colors: {
         primary: "#FE8C00",
-        // Builder.io design tokens (HSL from test-app global.css -> hex)
         orange: {
           DEFAULT: "#FE8C00", // hsl(28 95% 55%) ~ brand primary
           dark: "#C24A0A", // hsl(21 90% 40%)
@@ -40,7 +39,7 @@ module.exports = {
         "quicksand-semibold": ["Quicksand-SemiBold", "sans-serif"],
         "quicksand-light": ["Quicksand-Light", "sans-serif"],
         "quicksand-medium": ["Quicksand-Medium", "sans-serif"],
-        // Inter (builder.io design) — keys match useFonts registration in app/_layout.tsx
+        // Inter — keys match useFonts registration in app/_layout.tsx
         inter: ["Inter_400Regular", "sans-serif"],
         "inter-medium": ["Inter_500Medium", "sans-serif"],
         "inter-semibold": ["Inter_600SemiBold", "sans-serif"],

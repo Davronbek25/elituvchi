@@ -42,7 +42,7 @@ export default Sentry.wrap(function RootLayout() {
     "QuickSand-Regular": require("../assets/fonts/Quicksand-Regular.ttf"),
     "QuickSand-SemiBold": require("../assets/fonts/Quicksand-SemiBold.ttf"),
     "QuickSand-Light": require("../assets/fonts/Quicksand-Light.ttf"),
-    // Inter (builder.io design) — keys match fontFamily entries in tailwind.config.js
+    // Inter — keys match fontFamily entries in tailwind.config.js
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,

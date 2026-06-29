@@ -1,6 +1,6 @@
 import Svg, { Circle, Path } from "react-native-svg";
 
-// SVG icons ported from the builder.io design (test-app/client/components).
+// SVG icons ported from the figma design.
 // Each accepts a `color` and `size` so they can be tinted per state.
 
 export const ORANGE = "#FE8C00";
