@@ -1,5 +1,5 @@
 import { useCartStore } from "@/store/cart.store";
-import { CartItemType } from "@/type";
+import { CartItem as CartItemType } from "@/type";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 import { CheckIcon, TrashIcon } from "@/components/icons";

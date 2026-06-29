@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import CartItem from '@/components/CartItem';
 import { BackIcon } from '@/components/icons';
-import { CartItemType } from '@/type';
+import { CartItem as CartItemType } from '@/type';
 
 const SummaryRow = ({
   label,
